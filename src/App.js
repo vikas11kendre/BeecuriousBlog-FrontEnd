@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React from 'react'
+import { Navigate, redirect } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {Container} from "@mui/material"
+// import Form from './components/Form/Form';
+// import Posts from './components/Posts/Posts';
+// import  {useDispatch} from 'react-redux';
+// import { getPosts ,toggleForm } from './actions/posts';
+import Navbar from './components/Navbar/Navbar';
+// import * as dotenv from 'dotenv'
+import Home from './components/Home/Home';
+import Auth from './components/Auth/Auth';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import PostDetails from './components/PostDetails/PostDetails';
+const App = () => {
+  const user=JSON.parse(localStorage.getItem('profile'))
+  // dotenv.config();
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+    <GoogleOAuthProvider clientId="7871804931-ojsq919rrk4t72oga2hg349gp4c3jeds.apps.googleusercontent.com">
+     <Container>
+     <Navbar/>
+    <Routes>
+    
+    <Route path="/" element={<Navigate to='/posts' replace/>}/>
+    <Route path="/posts" element={<Home/>}/>
+    <Route path="/posts/search" element={<Home/>}/>
+    <Route path="/posts/:id" element={<PostDetails/>}/>
+    {/* <Link to="/">Home</Link> */}
+    <Route path="/auth" action={()=>!user? <Navigate to='/posts' replace/>: <Auth/>} element={<Auth/>} />
+    
+    
+    
+    </Routes>
+    </Container>
+   
+     
+      
+    </GoogleOAuthProvider>;
+    </Router>
+  )
+
 }
 
-export default App;
+export default App

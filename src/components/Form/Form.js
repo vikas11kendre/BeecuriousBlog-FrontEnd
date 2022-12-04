@@ -1,0 +1,113 @@
+
+import React, { useState, useEffect } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+import {TextField, Button, Box, Paper, Alert} from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import FileBase from 'react-file-base64';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import { setId, toggleForm, updatePost } from '../../actions/posts';
+import DialogTitle from '@mui/material/DialogTitle';
+import { createPost } from '../../actions/posts';
+import Text from "./text.js"
+import { useNavigate } from 'react-router-dom';
+const Form = () => {
+  let navigate = useNavigate();
+  const dispatch=useDispatch();
+  const formState = useSelector((state) => state.form);
+  const currentid = useSelector((state) => state.id);
+  const user = JSON.parse(localStorage.getItem('profile'))
+  const [postData,setPostData]=useState({
+    title:"",message:"",tags:"",selectedFile:""
+  })
+  // const [open, setOpen] = React.useState(false);
+  const post =useSelector((state)=>currentid?state.posts.posts.find((p)=>p._id===currentid):null)
+  
+ 
+  const handleClickOpen = () => () => {
+    dispatch(toggleForm(false));
+  };
+  useEffect(() => {
+    if(post) setPostData(post)
+  }, [post,currentid])
+  
+  const handleClose = () => {
+    dispatch(toggleForm(true));
+  };
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    if (currentid){
+      dispatch(updatePost(currentid,{...postData,name:user?.result?.name}))
+      dispatch(setId(null))
+      navigate(`/posts/${currentid}`)
+    }else{
+      const post ={...postData,name:user?.result?.name}
+      dispatch(createPost(post,navigate))
+    }
+    dispatch(setId(null))
+    handleClose()
+    // dispatch({type:"REFRESH"})
+ 
+    clear()
+  }
+  const clear=()=>{
+    setPostData({
+      title:"",message:"",tags:"",selectedFile:""
+    })
+    dispatch(setId(null))
+    // handleClose()
+  }
+  if (!user?.result?.name){
+    return (
+      <Alert severity="error">Please sign in to create post</Alert>
+    )
+  }
+    return (
+    <div>
+      <Button onClick={handleClickOpen('paper')}>Create Post</Button>
+      
+      <Dialog
+        open={formState}
+        onClose={handleClose}
+      
+        scroll="paper"
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+      <form autoComplete="off" noValidate onSubmit={handleSubmit} >
+        <DialogTitle id="scroll-dialog-title">Create Blog Post</DialogTitle>
+        <DialogContent dividers={true}>
+        <Paper >
+        
+        
+        <TextField sx={{pb:"20px"}} name="title" variant="outlined" label="Title" fullWidth 
+        value={postData.title} 
+        onChange={(e)=>setPostData({...postData,title:e.target.value})} />
+
+        <TextField sx={{pb:"20px"}} name="message" variant="outlined" label="Message" fullWidth multiline rows={4} 
+        value={postData.message}
+          onChange={(e)=>setPostData({...postData,message:e.target.value})}   />
+          {/* <Text/> */}
+        <TextField name="tags" variant="outlined" label="Tags (coma separated)" fullWidth  
+        value={postData.tags}
+        onChange={(e)=>setPostData({...postData,tags:e.target.value.split(",")})} 
+        />
+        
+        <Box sx={{pt:"20px"}}><FileBase type="file" multiple={false} 
+            onDone={({base64})=>setPostData({...postData,selectedFile:base64})}
+         /></Box>
+      
+        </Paper>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={clear}>clear</Button>
+          <Button type="submit" >Submit</Button>
+        </DialogActions>
+        </form>
+      </Dialog>
+    </div>
+  )
+}
+
+export default Form
