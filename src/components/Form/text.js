@@ -1,46 +1,50 @@
-import React, { useState } from 'react';
-import { convertToRaw, EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-// import { convertToHTML } from 'draft-convert';
-// import DOMPurify from 'dompurify';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-// import './App.css';
-import { Box} from '@mui/material';
+import React, { useState, useMemo } from "react";
+import { EditorState, convertToRaw ,convertFromRaw} from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import draftToHtml from "draftjs-to-html";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+// import "./styles.css";
 
-const Text=()=>{
-    const [editorState, setEditorState] = useState(
-        () => EditorState.createEmpty(),
-      );
-      const  [convertedContent, setConvertedContent] = useState(null);
-      const handleEditorChange = async (state) => {
-        // const data = convertToRaw(editorState.getCurrentContent());
-         await setEditorState(state);
-       
-        // convertContentToHTML();
-        
-        console.log(convertedContent)
-        // console.log(data)
-      }
-      // const convertContentToHTML = () => {
-      //   // let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
-      //   setConvertedContent(currentContentAsHTML);
-      // }
-    //   const createMarkup = (html) => {
-    //     return  {
-    //       __html: DOMPurify.sanitize(html)
-    //     }
-    //   }
-    
+import { Box, Button} from '@mui/material';
+
+const Text=({postData,setPostData})=>{
+  const dataTobeset =EditorState.createEmpty();
+
+  const [editorState, setEditorState] = useState(dataTobeset);
+  // const [editorState, setEditorState] = useState(EditorState.createEmpty())
+  const handleChange = (data) => {
+    setEditorState(data);
+  };
+  // var htmlData = useMemo(
+  //   () => draftToHtml(convertToRaw(editorState.getCurrentContent())),
+  //   [editorState]
+  // );
+  var Data = useMemo(
+    () => {
+
+      const stringData =JSON.stringify(convertToRaw(editorState.getCurrentContent()))
+      setPostData({...postData,message:stringData})
+    },
+    [editorState]
+  );
+
+  // const setHtml=()=>{
+  //   const message=JSON.stringify(Data)
+  //   console.log(message)
+  // }
+
     return(<Box>
                 <Editor
         editorState={editorState}
-        onEditorStateChange={handleEditorChange}
-        wrapperClassName="wrapper-class"
-        editorClassName="editor-class"
-        toolbarClassName="toolbar-class"
+        onEditorStateChange={handleChange}
+        wrapperClassName="editor-wrapper"
+        editorClassName="message-editor"
+        toolbarClassName="message-toolbar"
+        // toolbar={toolbarOptions}
       />
         <Box>
-        {/* <div  dangerouslySetInnerHTML={createMarkup(convertedContent)}></div> */}
+        {/* <Button onClick={setHtml}> upload</Button>
+        <div  >{htmlData}</div> */}
         </Box>
     </Box>)
 
