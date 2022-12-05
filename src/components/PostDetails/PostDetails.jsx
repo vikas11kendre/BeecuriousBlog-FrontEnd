@@ -2,7 +2,7 @@ import { Grid ,Box, Typography, Avatar, LinearProgress } from '@mui/material'
 import moment from 'moment'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
+import draftToHtml from "draftjs-to-html";
 import { useNavigate, useParams } from 'react-router-dom'
 import { getPost, getPostsBySearch } from '../../actions/posts'
 import CommentSection from './CommentSection'
@@ -32,6 +32,7 @@ const PostDetails = () => {
       )
     }
     const recommendedPosts=posts.filter(({_id})=>_id!==post?._id);
+    console.log(draftToHtml((JSON.parse(post.message))))
   return (
     <Grid maxWidth='sm' container>
       <Grid item xs={12}>
@@ -45,9 +46,9 @@ const PostDetails = () => {
       </Grid>
       <Grid item xs={12}> {post.tags}</Grid>
       <Grid item xs={12}>
-        <Box>
-          {post.message}
-        </Box>
+        <div dangerouslySetInnerHTML={{__html: draftToHtml((JSON.parse(post.message)))}} >
+      
+        </div>
       </Grid>
       <Grid item xs={12}>
         <Box>

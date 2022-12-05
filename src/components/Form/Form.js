@@ -12,6 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { createPost } from '../../actions/posts';
 import Text from "./text.js"
 import { useNavigate } from 'react-router-dom';
+import draftToHtml from "draftjs-to-html";
 const Form = () => {
   let navigate = useNavigate();
   const dispatch=useDispatch();
@@ -19,7 +20,7 @@ const Form = () => {
   const currentid = useSelector((state) => state.id);
   const user = JSON.parse(localStorage.getItem('profile'))
   const [postData,setPostData]=useState({
-    title:"",message:"",tags:"",selectedFile:""
+    title:"",message:{},tags:"",selectedFile:""
   })
   // const [open, setOpen] = React.useState(false);
   const post =useSelector((state)=>currentid?state.posts.posts.find((p)=>p._id===currentid):null)
@@ -85,10 +86,8 @@ const Form = () => {
         value={postData.title} 
         onChange={(e)=>setPostData({...postData,title:e.target.value})} />
 
-        <TextField sx={{pb:"20px"}} name="message" variant="outlined" label="Message" fullWidth multiline rows={4} 
-        value={postData.message}
-          onChange={(e)=>setPostData({...postData,message:e.target.value})}   />
-          {/* <Text/> */}
+          <Text postData={postData} setPostData={setPostData}/>
+          {/* <Box> {draftToHtml((JSON.parse(postData.message)))}</Box> */}
         <TextField name="tags" variant="outlined" label="Tags (coma separated)" fullWidth  
         value={postData.tags}
         onChange={(e)=>setPostData({...postData,tags:e.target.value.split(",")})} 
