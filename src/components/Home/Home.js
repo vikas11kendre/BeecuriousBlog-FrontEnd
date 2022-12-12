@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { getPosts, toggleForm ,getPostsBySearch } from '../../actions/posts';
 import Posts from '../Posts/Posts'
 import Paginate from '../Paginate';
-import { Button, Grid, Paper, Stack, TextField } from '@mui/material';
+import { Button, Grid, Paper, Stack, TextField ,Box} from '@mui/material';
 import { useLocation ,useNavigate } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 
@@ -22,11 +22,11 @@ const Home = () => {
     const [search,setSearch]=useState('')
     const [tags,setTags]=useState('')
     
-    useEffect(() => {
-      dispatch(toggleForm(true))
+    // useEffect(() => {
+    //   dispatch(toggleForm(true))
       
    
-    }, [dispatch]);
+    // }, [dispatch]);
  
     const handleKeyPress=(e)=>{
       if (e.keyCode===13){
@@ -46,39 +46,57 @@ const Home = () => {
    
     
   return (
-    <Stack>
-      <Grid container>
-        <Grid item>
-        <Paper sx={{mt:'20px'}}>
+    <Grid container sx={{mt:'30px'}}>
+     
+        <Grid item xs={12}  >
+          <Grid container> 
+          <Grid item md={4} sm={12} xs={12} sx={{ p:'10px'}} >
           <TextField
-            name='search'
-            variant='outlined'
-            label='Serach Memories'
-            fullWidth
-            onKeyPress={handleKeyPress}
-            value={search}
-            onChange={(e)=>{setSearch(e.target.value)}}
-
-
-          />
+              name='search'
+              variant='outlined'
+              label='Serach Memories'
+              fullWidth
+              onKeyPress={handleKeyPress}
+              value={search}
+              onChange={(e)=>{setSearch(e.target.value)}}
+              
+            />
+          </Grid>
+          <Grid item md={4} sm={12} xs={12} sx={{p:'10px'}}>
           <TextField
-            name='search'
-            variant='outlined'
-            label='add tags seperated by ,'
-            fullWidth
-            onKeyPress={handleKeyPress}
-            value={tags}
-            onChange={(e)=>{setTags(e.target.value)}}
-          />
-          <Button onClick ={serachPost}> Search </Button>
-      
-        </Paper>
+              name='search'
+              variant='outlined'
+              label='add tags seperated by ,'
+              fullWidth
+              onKeyPress={handleKeyPress}
+              value={tags}
+              
+              onChange={(e)=>{setTags(e.target.value)}}
+            
+            />
+          </Grid>
+          <Grid item md={4} sm={12} xs={12} sx={{p:'10px'}}>
+            <Box sx={{display:"flex",alignItems:"center",justifyContent:"flex-start"}}>
+            <Button sx={{mt:'10px'}} variant="contained" onClick ={serachPost}> Search </Button>
+            </Box>
+          </Grid>
+          </Grid>
+    
+        </Grid>
+        <Grid item xs={12}>
+        <Posts  />
+        </Grid>
+        <Grid sx={{mt:"30px"}} item xs={12} >
+        <Box sx={{display:'flex',justifyContent:"flex-end"}}>
+        {(!searchQuery && !tags.length) && <Paginate page={page} />}
+        </Box>
+       
         </Grid>
       </Grid>
-      <Posts  />
-      {(!searchQuery && !tags.length) && <Paginate page={page} />}
+      
+      
     
-    </Stack>
+  
     
   )
 }

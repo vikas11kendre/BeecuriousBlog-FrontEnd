@@ -1,31 +1,33 @@
-import { Grid } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import { Box, Grid } from '@mui/material'
+import React from 'react'
 import Post from './Post/Post'
-import {  useDispatch, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 
-import LinearProgress from '@mui/material/LinearProgress';
-import { getPosts } from '../../actions/posts';
+import Lottie from "lottie-react";
+import loading from '../../images/loading.json'
+
 
 
 const Posts = () => {
  
+  const style = {
+    height: 600,
+  };
   
   const {posts,isLoading} = useSelector((state) => state.posts);
-  // const data= allposts
-  // const [posts,setPosts]=useState(data);
-  // const update=()=>{
-  //   setPosts(allposts);
-  // }
-  // useEffect(() => {
-  //   setPosts(allposts);
-  // }, [allposts])
+  
   if (!posts.length && !isLoading) return 'No posts found';
   return (
-    isLoading?<LinearProgress sx={{mt:"250px",width:'100%',height:"30px"}}/>:
+    isLoading?<Box >
+      <Lottie animationData={loading} style={style} loop={true} />
+    </Box>:
     <Grid container>
     {posts.map((post )=>(
       <Grid key={post._id} item xs={12} sm={6} lg={4}>
+        <Box sx={{display:'flex' ,justifyContent:"center",alignItems:"center"}}>
         <Post post={post} />
+        </Box>
+       
       </Grid>
     ))}
       
