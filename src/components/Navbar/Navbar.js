@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom';
 import logo from '../../images/logo.svg';
-import {AppBar,Box,Avatar, Button} from "@mui/material"
+import {AppBar,Popover,Box,Avatar, Button} from "@mui/material"
 import Form from '../Form/Form';
 import { useDispatch } from 'react-redux';
 import { logOut } from '../../actions/posts';
@@ -10,6 +10,17 @@ import decode from 'jwt-decode';
 const Navbar = () => {
   const [user,setUser]=useState(JSON.parse(localStorage.getItem('profile')));
   const dispatch=useDispatch();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
   const navigate= useNavigate();
   const location = useLocation();
   useEffect(() => {
@@ -26,6 +37,7 @@ const Navbar = () => {
     dispatch(logOut());
     navigate("/")
     setUser(null)
+    setAnchorEl(null);
   }
   
   return (
@@ -40,8 +52,20 @@ const Navbar = () => {
       
       <Box sx={{display:'flex',flexDirection:"row"}}>
       
-      <Avatar alt={user.result.name} src={user.result.picture}>{user.result.name.charAt(0)}</Avatar> 
-      <Button onClick={logout} variant="text">LogOut</Button></Box>
+      <Avatar onClick={handleClick} alt={user.result.name} src={user.result.picture}> {user.result.name.charAt(0)}</Avatar> 
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <Button onClick={logout} variant="text">LogOut</Button>
+      </Popover>
+      </Box>
       :
        <Button component={Link} to="/auth" variant="text">SignIn</Button>}
       </Box>

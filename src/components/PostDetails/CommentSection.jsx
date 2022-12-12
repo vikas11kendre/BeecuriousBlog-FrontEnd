@@ -1,4 +1,4 @@
-import { Typography,Box, TextField, Button } from '@mui/material'
+import { Typography,Box, TextField, Button, Paper, Avatar } from '@mui/material'
 
 import React from 'react'
 import { useState } from 'react'
@@ -22,17 +22,35 @@ const CommentSection = ({post}) => {
         setComment('');
     }
   return (
-    <Box>
+    <Box sx={{mt:'40px'}}>
+    <Paper sx={{p:'12px'}}>
     
-    <Typography> Comment Section</Typography>
-    <Box >
+    <Typography variant='h6' sx={{color:"#46364a" ,fontWeight:"bold"}}> Comment Section</Typography>
+    <Box  sx={{mb:'40px'}}>
     {comments.map((c,i)=>(
-        <Typography  gutterBottom variant="h6" key={i} >{c.split(':')[0]} {c.split(':')[1]} {c.split(':')[2]}   </Typography>
+        <Box key={i}>
+            <Box sx={{display:'flex' ,alignItems:"center",justifyContent:"space-between" ,p:"10px",maxWidth:"400px" }}>
+                <Box sx={{display:'flex' ,alignItems:"center" ,justifyContent:"flex-start"}}>
+                    <Avatar sx={{backgroundColor:"#F4511E"}} alt={post.name} src={post.picture}>
+                    <Typography variant='body1' >{post.name.charAt(0)}</Typography>
+                    </Avatar>
+                    <Typography variant='body1' sx={{ml:"9px" ,fontWeight:'bold',color:'#6b7688'}}>{post.name}</Typography>
+                </Box>
+                <Box sx={{display:'flex' ,alignItems:"center" ,justifyContent:"flex-end"}}>
+                <Typography align='right'>{c.split(':')[2]}</Typography>
+                </Box>  
+            </Box>
+            <Box sx={{pl:"40px" ,color:"#6b7688"}}><Typography  gutterBottom variant="body1" key={i} >{c.split(':')[1]}    </Typography></Box>
+            
+      
+        </Box>
+
     ))}
     </Box>
+
     {user?.result?.name
-        &&(<Box>
-        <Typography>Write a comment </Typography>
+        ?(<Box>
+        <Typography sx={{mb:"20px"}}>Write a comment </Typography>
         <TextField 
             fullWidth
             rows={4}
@@ -42,14 +60,15 @@ const CommentSection = ({post}) => {
             onChange={(e)=>setComment(e.target.value)}
         />
         <Button 
+        sx={{mt:"20px"}}
         disabled={!comment}
         variant="contained"
         onClick={handleClick}
         
         > comment</Button>
-    </Box>)}
+    </Box>):<Box><Typography>Please login to post comments</Typography></Box>}
     
-        
+    </Paper>
     </Box>
   )
 }

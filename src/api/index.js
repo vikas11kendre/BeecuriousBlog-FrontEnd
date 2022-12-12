@@ -1,4 +1,5 @@
 import axios from "axios";
+// const API=axios.create({baseURL: "http://ec2-65-2-34-6.ap-south-1.compute.amazonaws.com:5000/"})
 const API=axios.create({baseURL: "http://localhost:5000"})
 
 API.interceptors.request.use((req)=>{

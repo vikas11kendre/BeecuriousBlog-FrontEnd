@@ -88,6 +88,7 @@ const Form = () => {
 
           <Text postData={postData} setPostData={setPostData}/>
           {/* <Box> {draftToHtml((JSON.parse(postData.message)))}</Box> */}
+
         <TextField name="tags" variant="outlined" label="Tags (coma separated)" fullWidth  
         value={postData.tags}
         onChange={(e)=>setPostData({...postData,tags:e.target.value.split(",")})} 

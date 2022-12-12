@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Card from '@mui/material/Card';
 
 import CardContent from '@mui/material/CardContent';
@@ -7,7 +7,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { Avatar, Box, Button, CardHeader, Chip, IconButton,ButtonBase } from '@mui/material';
+import { Avatar, Box, Button, CardHeader, Chip, IconButton } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ShareIcon from '@mui/icons-material/Share';
 import EditIcon from '@mui/icons-material/Edit';
@@ -25,7 +25,7 @@ const Post = ({post}) => {
     const handleEdit=()=>{
       dispatch(setId(post._id))
       dispatch(toggleForm(false))
-      console.log(post)
+      
     }
     const handleDelete=()=>{
       dispatch(deletePost(post._id))
@@ -54,7 +54,7 @@ const Post = ({post}) => {
 
   return (
   
-    <Card  sx={{ maxWidth: 320, mt:"40px" ,justifyContent:'center'  }}>
+    <Card  sx={{ width: 320,height:450 ,mt:"40px" ,justifyContent:'center'  }}>
     
       <CardMedia
         onClick={openPost}
@@ -72,9 +72,9 @@ const Post = ({post}) => {
         <Button disabled={!user?.result} onClick={handleLike} sx={{pr:"5px",fontSize:"12px" }}>
           {<Likes/>}
         </Button>
-        {(userId===post?.creator) && (<Box sx={{flexDirection:"row",display:'flex'}}><EditIcon onClick={handleEdit} sx={{pr:"5px"}}/> 
+        {(userId===post?.creator) && (<Box sx={{flexDirection:"row",display:'flex'}}><EditIcon onClick={handleEdit} sx={{pr:"5px",cursor:"pointer"}}/> 
 
-<DeleteOutlineIcon onClick={handleDelete}/></Box>)}
+        <DeleteOutlineIcon sx={{cursor:"pointer"}} onClick={handleDelete}/></Box>)}
         
         </Box>
         </Box>

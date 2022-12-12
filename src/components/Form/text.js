@@ -33,19 +33,16 @@ const Text=({postData,setPostData})=>{
   //   console.log(message)
   // }
 
-    return(<Box>
+    return(<Box sx={{minHeight:"100px"}}>
                 <Editor
         editorState={editorState}
         onEditorStateChange={handleChange}
-        wrapperClassName="editor-wrapper"
-        editorClassName="message-editor"
-        toolbarClassName="message-toolbar"
+        toolbarClassName="toolbarClassName"
+  wrapperClassName="wrapperClassName"
+  editorClassName="editorClassName"
         // toolbar={toolbarOptions}
       />
-        <Box>
-        {/* <Button onClick={setHtml}> upload</Button>
-        <div  >{htmlData}</div> */}
-        </Box>
+        
     </Box>)
 
 }
