@@ -19,6 +19,7 @@ const Form = () => {
   const formState = useSelector((state) => state.form);
   const currentid = useSelector((state) => state.id);
   const user = JSON.parse(localStorage.getItem('profile'))
+  const userId = user?.result.sub || user?.result?._id;
   const [postData,setPostData]=useState({
     title:"",message:{},tags:"",selectedFile:"",trending:false
   })
@@ -42,7 +43,7 @@ const Form = () => {
   const handleSubmit=(e)=>{
     e.preventDefault();
     if (currentid){
-      dispatch(updatePost(currentid,{...postData,name:user?.result?.name}))
+      dispatch(updatePost(currentid,{...postData}))
       dispatch(setId(null))
       navigate(`/posts/${currentid}`)
     }else{
@@ -96,7 +97,7 @@ const Form = () => {
         value={postData.tags}
         onChange={(e)=>setPostData({...postData,tags:e.target.value.split(",")})} 
         />
-         <Switch checked={postData.trending} onChange={handleChange} /> <Typography>{postData.trending?'true':'false'}</Typography>
+         {(userId==='639731de321f262c6969a414') && (<Box><Switch checked={postData.trending} onChange={handleChange} /> <Typography>{postData.trending?'true':'false'}</Typography></Box>)}
         <Box sx={{pt:"20px"}}><FileBase type="file" multiple={false} 
             onDone={({base64})=>setPostData({...postData,selectedFile:base64})}
          /></Box>

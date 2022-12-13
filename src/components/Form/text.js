@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from "react";
 import { EditorState, convertToRaw ,convertFromRaw} from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
-import draftToHtml from "draftjs-to-html";
+
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-// import "./styles.css";
+
 
 import { Box} from '@mui/material';
 import { useEffect } from "react";
@@ -11,14 +11,13 @@ import { useEffect } from "react";
 const Text=({postData,setPostData ,post})=>{
   
 
-  // const dataTobeset = post?(createWithContent(
-  //   convertFromRaw(JSON.parse(post.message)):
 
-  // console.log(post)
+
+  
   const [edata,setEdata]=useState(post?(EditorState.createWithContent(
     convertFromRaw(JSON.parse(post.message)))):EditorState.createEmpty())
   const [editorState, setEditorState] = useState(edata);
-  // const [editorState, setEditorState] = useState(EditorState.createEmpty())
+
  
   useEffect(() => {
     if(post) {
@@ -29,23 +28,20 @@ const Text=({postData,setPostData ,post})=>{
   const handleChange = (data) => {
     setEditorState(data);
   };
-  // var htmlData = useMemo(
-  //   () => draftToHtml(convertToRaw(editorState.getCurrentContent())),
-  //   [editorState]
-  // );
+  
   var Data = useMemo(
     () => {
-
       const stringData =JSON.stringify(convertToRaw(editorState.getCurrentContent()))
       setPostData({...postData,message:stringData})
     },
     [editorState]
   );
 
-  // const setHtml=()=>{
-  //   const message=JSON.stringify(Data)
-  //   console.log(message)
-  // }
+//  useEffect(() => {
+//   const stringData =JSON.stringify(convertToRaw(editorState.getCurrentContent()))
+//        setPostData({...postData,message:stringData})
+//  }, [editorState])
+ 
 
     return(<Box sx={{minHeight:"100px"}}>
                 <Editor
@@ -54,7 +50,7 @@ const Text=({postData,setPostData ,post})=>{
         toolbarClassName="toolbarClassName"
   wrapperClassName="wrapperClassName"
   editorClassName="editorClassName"
-        // toolbar={toolbarOptions}
+      
       />
         
     </Box>)
@@ -62,5 +58,3 @@ const Text=({postData,setPostData ,post})=>{
 }
 
 export default Text;
-// EditorState.createWithContent(
-//   convertFromRaw(rawContentState)

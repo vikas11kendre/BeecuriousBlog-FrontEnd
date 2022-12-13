@@ -17,10 +17,11 @@ import { setId, toggleForm ,deletePost,likePost} from '../../../actions/posts';
 import { useNavigate } from 'react-router-dom';
 
 const Post = ({post}) => {
-  
+ 
   const user = JSON.parse(localStorage.getItem('profile'));
   const navigate =useNavigate();
   const userId = user?.result.sub || user?.result?._id;
+
     const dispatch=useDispatch();
     const handleEdit=()=>{
       dispatch(setId(post._id))
@@ -72,7 +73,7 @@ const Post = ({post}) => {
         <Button disabled={!user?.result} onClick={handleLike} sx={{pr:"5px",fontSize:"12px" }}>
           {<Likes/>}
         </Button>
-        {(userId===post?.creator) && (<Box sx={{flexDirection:"row",display:'flex'}}><EditIcon onClick={handleEdit} sx={{pr:"5px",cursor:"pointer"}}/> 
+        {(userId===post?.creator || userId==='639731de321f262c6969a414') && (<Box sx={{flexDirection:"row",display:'flex'}}><EditIcon onClick={handleEdit} sx={{pr:"5px",cursor:"pointer"}}/> 
 
         <DeleteOutlineIcon sx={{cursor:"pointer"}} onClick={handleDelete}/></Box>)}
         

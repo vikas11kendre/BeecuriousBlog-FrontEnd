@@ -1,11 +1,12 @@
 import React, { useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux';
-import { getPosts, toggleForm ,getPostsBySearch } from '../../actions/posts';
+import { getPosts, toggleForm ,getPostsBySearch, getTrendingPosts } from '../../actions/posts';
 import Posts from '../Posts/Posts'
 import Paginate from '../Paginate';
 import { Button, Grid, Paper, Stack, TextField ,Box} from '@mui/material';
 import { useLocation ,useNavigate } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
+import TrendingPost from '../Posts/TrendingPost';
 
 function useQuery(){
   return new URLSearchParams(useLocation().search)
@@ -21,12 +22,8 @@ const Home = () => {
     const searchQuery=query.get('searchQuery');
     const [search,setSearch]=useState('')
     const [tags,setTags]=useState('')
+    dispatch(getTrendingPosts())
     
-    // useEffect(() => {
-    //   dispatch(toggleForm(true))
-      
-   
-    // }, [dispatch]);
  
     const handleKeyPress=(e)=>{
       if (e.keyCode===13){
@@ -82,6 +79,9 @@ const Home = () => {
           </Grid>
           </Grid>
     
+        </Grid>
+        <Grid item xs={12}>
+         {page===1 &&<TrendingPost/>} 
         </Grid>
         <Grid item xs={12}>
         <Posts  />
