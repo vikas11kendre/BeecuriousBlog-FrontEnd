@@ -74,11 +74,11 @@ export const toggleForm=(state)=>async (dispatch)=>{
 export const updatePost=(id,post)=>async (dispatch)=>{
 
     try{
-        // dispatch({type:START_LOADING})
+        dispatch({type:START_LOADING})
         const {data}=await api.updatePost(id,post);
         
         dispatch({type:UPDATE ,payload:data})
-        // dispatch({type:END_LOADING})
+        dispatch({type:END_LOADING})
     }
     catch(error){
         console.log(`known error ${error.message}`);

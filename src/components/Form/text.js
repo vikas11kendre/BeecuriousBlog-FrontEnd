@@ -5,13 +5,27 @@ import draftToHtml from "draftjs-to-html";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 // import "./styles.css";
 
-import { Box, Button} from '@mui/material';
+import { Box} from '@mui/material';
+import { useEffect } from "react";
 
-const Text=({postData,setPostData})=>{
-  const dataTobeset =EditorState.createEmpty();
+const Text=({postData,setPostData ,post})=>{
+  
 
-  const [editorState, setEditorState] = useState(dataTobeset);
+  // const dataTobeset = post?(createWithContent(
+  //   convertFromRaw(JSON.parse(post.message)):
+
+  // console.log(post)
+  const [edata,setEdata]=useState(post?(EditorState.createWithContent(
+    convertFromRaw(JSON.parse(post.message)))):EditorState.createEmpty())
+  const [editorState, setEditorState] = useState(edata);
   // const [editorState, setEditorState] = useState(EditorState.createEmpty())
+ 
+  useEffect(() => {
+    if(post) {
+      setEdata(EditorState.createWithContent(
+      convertFromRaw(JSON.parse(post.message))))
+    }
+  }, [post])
   const handleChange = (data) => {
     setEditorState(data);
   };
@@ -48,3 +62,5 @@ const Text=({postData,setPostData})=>{
 }
 
 export default Text;
+// EditorState.createWithContent(
+//   convertFromRaw(rawContentState)
