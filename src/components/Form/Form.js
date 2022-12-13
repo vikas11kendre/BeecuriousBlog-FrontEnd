@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {TextField, Button, Box, Paper, Alert} from '@mui/material';
+import {TextField, Button, Box, Paper, Alert, Switch, Typography} from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import FileBase from 'react-file-base64';
 import DialogActions from '@mui/material/DialogActions';
@@ -12,7 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { createPost } from '../../actions/posts';
 import Text from "./text.js"
 import { useNavigate } from 'react-router-dom';
-import draftToHtml from "draftjs-to-html";
+// import draftToHtml from "draftjs-to-html";
 const Form = () => {
   let navigate = useNavigate();
   const dispatch=useDispatch();
@@ -20,11 +20,14 @@ const Form = () => {
   const currentid = useSelector((state) => state.id);
   const user = JSON.parse(localStorage.getItem('profile'))
   const [postData,setPostData]=useState({
-    title:"",message:{},tags:"",selectedFile:""
+    title:"",message:{},tags:"",selectedFile:"",trending:false
   })
   // const [open, setOpen] = React.useState(false);
   const post =useSelector((state)=>currentid?state.posts.posts.find((p)=>p._id===currentid):null)
-  
+  const handleChange = (e) => {
+    setPostData({...postData,trending:e.target.checked});
+    console.log(postData)
+  };
  
   const handleClickOpen = () => () => {
     dispatch(toggleForm(false));
@@ -54,7 +57,7 @@ const Form = () => {
   }
   const clear=()=>{
     setPostData({
-      title:"",message:"",tags:"",selectedFile:""
+      title:"",message:"",tags:"",selectedFile:"",trending:false
     })
     dispatch(setId(null))
     // handleClose()
@@ -86,18 +89,18 @@ const Form = () => {
         value={postData.title} 
         onChange={(e)=>setPostData({...postData,title:e.target.value})} />
 
-          <Text postData={postData} setPostData={setPostData}/>
+          <Text postData={postData} setPostData={setPostData} post={post}/>
           {/* <Box> {draftToHtml((JSON.parse(postData.message)))}</Box> */}
 
         <TextField name="tags" variant="outlined" label="Tags (coma separated)" fullWidth  
         value={postData.tags}
         onChange={(e)=>setPostData({...postData,tags:e.target.value.split(",")})} 
         />
-        
+         <Switch checked={postData.trending} onChange={handleChange} /> <Typography>{postData.trending?'true':'false'}</Typography>
         <Box sx={{pt:"20px"}}><FileBase type="file" multiple={false} 
             onDone={({base64})=>setPostData({...postData,selectedFile:base64})}
          /></Box>
-      
+        <Button onClick={()=>console.log(postData)}>print</Button>
         </Paper>
         </DialogContent>
         <DialogActions>
