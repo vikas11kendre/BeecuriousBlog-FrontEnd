@@ -1,4 +1,4 @@
-import { FETCH_ALL,COMMENT,AUTH,START_LOADING,END_LOADING,FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE,TOGGLE ,EDIT, SETID, LOGOUT, FETCH_POST} from '../constants/actionTypes';
+import { FETCH_ALL,COMMENT,AUTH,START_LOADING,END_LOADING,FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE,TOGGLE ,EDIT, SETID, LOGOUT, FETCH_POST, TRENDING} from '../constants/actionTypes';
 
 import * as api from '../api/index.js';
 
@@ -159,3 +159,18 @@ export const logOut=()=>async (dispatch)=>{
         console.log(error);
     }
 }
+
+
+export const getTrendingPosts=()=>async (dispatch)=>{
+
+    try{
+        // dispatch({type:START_LOADING})
+        const {data}=await api.getTrendingPosts();
+        
+        dispatch({type:TRENDING ,payload:data})
+        // dispatch({type:END_LOADING})
+    }
+    catch(error){
+        console.log(`known error ${error.message}`);
+    }
+} 

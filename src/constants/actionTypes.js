@@ -13,3 +13,4 @@ export const TOGGLE='TOGGLE';
 export const SETID='SETID';
 export const REFRESH='REFRESH';
 export const COMMENT='COMMENT';
+export const TRENDING='TRENDING';

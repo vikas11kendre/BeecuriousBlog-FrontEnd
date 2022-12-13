@@ -1,8 +1,8 @@
 
-import { FETCH_ALL,END_LOADING,COMMENT,START_LOADING,FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE, FETCH_POST } from '../constants/actionTypes';
+import { FETCH_ALL,END_LOADING,COMMENT,START_LOADING,FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE, FETCH_POST, TRENDING } from '../constants/actionTypes';
 
 
- const posts=(state={isLoading:true,posts:[]},action) => {
+ const posts=(state={isLoading:true,posts:[],trendingPosts:[]},action) => {
     
     switch (action.type) {
         case START_LOADING:
@@ -31,6 +31,9 @@ import { FETCH_ALL,END_LOADING,COMMENT,START_LOADING,FETCH_BY_SEARCH, CREATE, UP
                 return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
         case DELETE:
             return { ...state, posts: state.posts.filter((post) => post._id !== action.payload) };
+        case TRENDING:
+            return {...state,trendingPosts:action.payload};
+
         default:
             return state;
 
