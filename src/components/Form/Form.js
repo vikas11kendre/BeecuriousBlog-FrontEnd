@@ -37,7 +37,8 @@ const Form = () => {
     title: "",
     message: {},
     tags: "",
-    selectedFile: "",
+    selectedFile:
+      "https://res.cloudinary.com/duznj2u7e/image/upload/v1671263300/bee_z14bwi.png",
     trending: false,
     subtitle: "",
     catageory: "Technology",
@@ -68,18 +69,28 @@ const Form = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (currentid) {
-      dispatch(updatePost(currentid, { ...postData }));
-      dispatch(setId(null));
-      navigate(`/posts/${currentid}`);
+    if (
+      !postData.title ||
+      !postData.subtitle ||
+      !postData.tags ||
+      !postData.message
+    ) {
+      handleClose();
+      Swal.fire("Please fill the form with all required fields");
     } else {
-      const post = { ...postData, name: user?.result?.name };
-      dispatch(createPost(post, navigate));
-    }
-    dispatch(setId(null));
-    handleClose();
+      if (currentid) {
+        dispatch(updatePost(currentid, { ...postData }));
+        dispatch(setId(null));
+        navigate(`/posts/${currentid}`);
+      } else {
+        const post = { ...postData, name: user?.result?.name };
+        dispatch(createPost(post, navigate));
+      }
+      dispatch(setId(null));
+      handleClose();
 
-    clear();
+      clear();
+    }
   };
   const clear = () => {
     setPostData({
@@ -133,6 +144,35 @@ const Form = () => {
                   setPostData({ ...postData, title: e.target.value })
                 }
               />
+              <Box sx={{ mb: "20px" }}>
+                <Typography sx={{ mb: "10px" }}> Upload Blog Image</Typography>
+                <FileBase
+                  type="file"
+                  required
+                  multiple={false}
+                  onDone={({ base64, size, type }) => {
+                    const sizeinkb = Number(size.replace("kB", ""));
+                    console.log(sizeinkb);
+                    if (
+                      type === "image/png" ||
+                      type === "image/jpeg" ||
+                      type === "image/webp"
+                    ) {
+                      if (sizeinkb <= 150) {
+                        setPostData({ ...postData, selectedFile: base64 });
+                      } else {
+                        handleClose();
+                        Swal.fire(
+                          "Only image less than 150 kb is spported , you search online image compresser and reupload"
+                        );
+                      }
+                    } else {
+                      handleClose();
+                      Swal.fire("notSupported file format");
+                    }
+                  }}
+                />
+              </Box>
 
               <TextField
                 sx={{ pb: "20px" }}
@@ -154,8 +194,8 @@ const Form = () => {
                   mb: "20px",
                 }}
               >
-                <Typography sx={{ mr: "5px", fontSize: "12px" }}>
-                  Selected Catagerory {selectCatageory}
+                <Typography sx={{ mr: "5px", fontSize: "14px" }}>
+                  {selectCatageory ? `${selectCatageory}` : `Select Catagerory`}
                 </Typography>
                 <Select
                   labelId="demo-controlled-open-select-label"
@@ -198,34 +238,6 @@ const Form = () => {
                   </Typography>
                 </Box>
               )}
-              <Box sx={{ pt: "20px" }}>
-                <FileBase
-                  type="file"
-                  required
-                  multiple={false}
-                  onDone={({ base64, size, type }) => {
-                    const sizeinkb = Number(size.replace("kB", ""));
-                    console.log(sizeinkb);
-                    if (
-                      type === "image/png" ||
-                      type === "image/jpeg" ||
-                      type === "image/webp"
-                    ) {
-                      if (sizeinkb <= 150) {
-                        setPostData({ ...postData, selectedFile: base64 });
-                      } else {
-                        handleClose();
-                        Swal.fire(
-                          "Only image less than 150 kb is spported , you search online image compresser and reupload"
-                        );
-                      }
-                    } else {
-                      handleClose();
-                      Swal.fire("notSupported file format");
-                    }
-                  }}
-                />
-              </Box>
             </Paper>
           </DialogContent>
           <DialogActions>
