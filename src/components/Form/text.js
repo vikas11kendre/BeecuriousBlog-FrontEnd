@@ -23,6 +23,7 @@ const Text=({postData,setPostData ,post})=>{
     if(post) {
       setEdata(EditorState.createWithContent(
       convertFromRaw(JSON.parse(post.message))))
+      setPostData(post)
     }
   }, [post])
   const handleChange = (data) => {
@@ -33,6 +34,7 @@ const Text=({postData,setPostData ,post})=>{
     () => {
       const stringData =JSON.stringify(convertToRaw(editorState.getCurrentContent()))
       setPostData({...postData,message:stringData})
+     
     },
     [editorState]
   );

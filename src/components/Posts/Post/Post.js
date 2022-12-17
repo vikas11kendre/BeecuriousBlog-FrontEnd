@@ -1,115 +1,249 @@
-import React from 'react'
-import Card from '@mui/material/Card';
+import React from "react";
 
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
+import Typography from "@mui/material/Typography";
+import { v4 as uuidv4 } from "uuid";
+import { Box } from "@mui/material";
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditIcon from "@mui/icons-material/Edit";
+import moment from "moment";
+import { useDispatch } from "react-redux";
+import {
+  setId,
+  toggleForm,
+  deletePost,
+  likePost,
+} from "../../../actions/posts";
+import { useNavigate } from "react-router-dom";
 
-import Typography from '@mui/material/Typography';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { Avatar, Box, Button, CardHeader, Chip, IconButton } from '@mui/material';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import ShareIcon from '@mui/icons-material/Share';
-import EditIcon from '@mui/icons-material/Edit';
-import moment from 'moment';
-import { useDispatch } from 'react-redux';
-import { setId, toggleForm ,deletePost,likePost} from '../../../actions/posts';
-import { useNavigate } from 'react-router-dom';
-
-const Post = ({post}) => {
- 
-  const user = JSON.parse(localStorage.getItem('profile'));
-  const navigate =useNavigate();
+const Post = ({ post }) => {
+  const user = JSON.parse(localStorage.getItem("profile"));
+  const navigate = useNavigate();
   const userId = user?.result.sub || user?.result?._id;
 
-    const dispatch=useDispatch();
-    const handleEdit=()=>{
-      dispatch(setId(post._id))
-      dispatch(toggleForm(false))
-      
+  const dispatch = useDispatch();
+  const handleEdit = () => {
+    dispatch(setId(post._id));
+    dispatch(toggleForm(false));
+  };
+  const handleDelete = () => {
+    dispatch(deletePost(post._id));
+  };
+
+  const handleLike = () => {
+    dispatch(likePost(post._id));
+    showSweetAlert();
+  };
+
+  const openPost = () => navigate(`/posts/${post._id}`);
+  const showAlert = () => Swal.fire("You need to login first");
+  function showSweetAlert() {
+    Swal.fire({
+      title: "Hello!",
+      text: "Thank  you for your love and support ",
+      timer: 4000,
+      timerProgressBar: true,
+    });
+  }
+  const Likes = () => {
+    if (post.likes.length > 0) {
+      return post.likes.find((like) => like === userId) ? (
+        <>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <FavoriteIcon fontSize="small" />
+            &nbsp;{post.likes.length}
+          </Box>
+        </>
+      ) : (
+        <>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <FavoriteBorderIcon fontSize="small" />
+            {post.likes.length}
+          </Box>
+        </>
+      );
     }
-    const handleDelete=()=>{
-      dispatch(deletePost(post._id))
-      
-    }
-    const handleLike=()=>{
-      dispatch(likePost(post._id))
-      // dispatch(getPosts())
-      // update()
-      // update()
-      
-    }
-    const openPost=()=>navigate(`/posts/${post._id}`)
-    const Likes = () => {
-      if (post.likes.length > 0) {
-        return post.likes.find((like) => like === userId)
-          ? (
-            <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
-          ) : (
-            <><ThumbUpOffAltIcon fontSize="small" />&nbsp;{post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}</>
-          );
-      }
-  
-      return <><ThumbUpOffAltIcon fontSize="small" />&nbsp;Like</>;
-    };
+
+    return (
+      <>
+        <FavoriteBorderIcon fontSize="small" />
+      </>
+    );
+  };
 
   return (
-  
-    <Card  sx={{ width: 320,height:450 ,mt:"40px" ,justifyContent:'center'  }}>
-    
-      <CardMedia
-        onClick={openPost}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        maxWidth: "320px",
+        mb: "40px",
+        mt: "20px",
+      }}
+    >
+      <Box
         component="img"
-        height="230"
-        image={post.selectedFile}
-        alt="green iguana"
-        sx={{cursor:"pointer"}}
+        onClick={openPost}
+        src={post.selectedFile}
+        sx={{
+          "&:hover": {
+            transform: "scale(1.1)",
+          },
+          cursor: "pointer",
+          height: "210px",
+          width: { md: "320px", sm: "300px", lg: "320px", xs: "320px" },
+          objectFit: "fill",
+          borderRadius: "10px",
+        }}
       />
-      
-      <CardContent>
-        <Box sx={{display:'flex' ,alignItems:"center",justifyContent:'space-between'}}>
-        <Chip component='div'  label="Technology" color="primary" /> 
-        <Box sx={{display:'flex' ,alignItems:"center",justifyContent:'space-between',color:"#3F39A8"}}>
-        <Button disabled={!user?.result} onClick={handleLike} sx={{pr:"5px",fontSize:"12px" }}>
-          {<Likes/>}
-        </Button>
-        {(userId===post?.creator || userId==='639731de321f262c6969a414') && (<Box sx={{flexDirection:"row",display:'flex'}}><EditIcon onClick={handleEdit} sx={{pr:"5px",cursor:"pointer"}}/> 
-
-        <DeleteOutlineIcon sx={{cursor:"pointer"}} onClick={handleDelete}/></Box>)}
-        
-        </Box>
-        </Box>
-       
-        <Box sx={{pt:'5px',display :"flex" ,flexWrap:'wrap' , alignItems:'center'}}> 
-      
-      <Typography > {post.tags.map((tag)=>`#${tag} `)}</Typography>
-      
-     
-      </Box>
-     
-        <Typography gutterBottom variant="h5" component="div">
-          {post.title}
+      <Box sx={{ display: "flex", mt: "10px", flexWrap: "wrap" }}>
+        {post.tags.map((tag) => (
+          <Typography
+            key={`12${uuidv4()}`}
+            sx={{
+              fontSize: "12px",
+              color: "#6c757d",
+              mr: "8px",
+              fontWeight: "400",
+            }}
+          >
+            #{tag}
+          </Typography>
+        ))}{" "}
+        <Typography
+          sx={{ color: "#6c757d", fontSize: "12px", fontWeight: "500" }}
+        >
+          - {moment(post.createdAt).fromNow()}
         </Typography>
-        <Box sx={{display:"felx", justifyContent:"flex-start"}}>
-        <CardHeader sx={{p:"0"}}
-        avatar={
-          <Avatar sx={{ bgcolor: "#7D41E1" }} aria-label="recipe">
-           {(post.name).slice(0,1)}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-             <ShareIcon/> 
-          </IconButton>
-        }
-        title={post.name.toUpperCase()}
-        subheader={moment(post.createdAt).fromNow()}
-      />
+      </Box>
+
+      <Box>
+        <Typography
+          sx={{
+            color: "#343a40",
+            mt: "10px",
+            fontSize: "16px",
+            fontWeight: "600",
+          }}
+        >
+          {post.title.length > 90
+            ? post.title.substring(0, 120).concat("...")
+            : post.title}
+        </Typography>
+      </Box>
+
+      <Box>
+        <Typography sx={{ color: "#343a40", mt: "10px", fontSize: "12px" }}>
+          {post.subtitle?.length > 90
+            ? post.subtitle?.substring(0, 120).concat("...")
+            : post?.subtitle}
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          mt: "10px",
+          flexWrap: "wrap",
+        }}
+      >
+        <Typography
+          onClick={() => navigate(`/creators/${post.name}`)}
+          sx={{
+            color: "#7d7f81",
+            fontSize: "12px",
+            fontWeight: "600",
+            cursor: "pointer",
+          }}
+        >
+          {post.name.toUpperCase()}
+        </Typography>
+        <Typography
+          onClick={() => navigate(`/catageory/${post?.catageory}`)}
+          sx={{
+            color: "#7d7f81",
+            fontSize: "12px",
+            fontWeight: "600",
+            ml: "10px",
+          }}
+        >
+          - in {post?.catageory}
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          mt: "10px",
+        }}
+      >
+        <Box
+          sx={{
+            mr: "12px",
+            p: "4px",
+            backgroundColor: "#4F5760",
+            borderRadius: "4px",
+          }}
+        >
+          <Typography
+            onClick={openPost}
+            sx={{
+              color: "white",
+              p: "5px",
+              fontSize: "12px",
+              fontWeight: "600",
+              cursor: "pointer",
+            }}
+          >
+            Read More
+          </Typography>
         </Box>
-        
-      </CardContent>
-      
-    </Card>)
-}
+
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            color: "#6A6F74",
+          }}
+        >
+          <Box
+            disabled={!user?.result}
+            onClick={userId ? handleLike : showAlert}
+            sx={{
+              pr: "5px",
+              fontSize: "12px",
+              opacity: userId ? "100%" : "40%",
+            }}
+          >
+            {<Likes />}
+          </Box>
+          {(userId === post?.creator ||
+            userId === "639731de321f262c6969a414") && (
+            <Box sx={{ flexDirection: "row", display: "flex" }}>
+              <EditIcon
+                onClick={handleEdit}
+                sx={{ pr: "5px", cursor: "pointer" }}
+              />
+
+              <DeleteOutlineIcon
+                sx={{ cursor: "pointer" }}
+                onClick={handleDelete}
+              />
+            </Box>
+          )}
+        </Box>
+      </Box>
+
+      <Box></Box>
+    </Box>
+  );
+};
 
 export default Post;
