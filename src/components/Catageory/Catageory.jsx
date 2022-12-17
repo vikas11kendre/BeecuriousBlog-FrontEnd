@@ -1,17 +1,25 @@
-import { Box, Grid, Typography } from "@mui/material";
-import React, { useMemo } from "react";
-import Post from "./Post/Post";
-import { useSelector } from "react-redux";
-
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Post from "../Posts/Post/Post";
+import { getPostsByCatageory } from "../../actions/posts";
 import Lottie from "lottie-react";
 import loading from "../../images/loading.json";
-
-const Posts = () => {
+import { Box, Grid, Typography } from "@mui/material";
+const Catageory = () => {
   const style = {
     height: 600,
   };
+  const { name } = useParams();
 
+  const creatorName = name.replace("%20", " ");
+  console.log(creatorName);
+  const dispatch = useDispatch();
   const { posts, isLoading } = useSelector((state) => state.posts);
+
+  useEffect(() => {
+    dispatch(getPostsByCatageory(creatorName));
+  }, []);
 
   if (!posts.length && !isLoading) return "No posts found";
   return isLoading ? (
@@ -31,7 +39,7 @@ const Posts = () => {
               mt: "24px",
             }}
           >
-            All Posts
+            {`Posts Created by ${creatorName}`}
           </Typography>
         </Box>
       </Grid>
@@ -51,5 +59,4 @@ const Posts = () => {
     </Grid>
   );
 };
-
-export default Posts;
+export default Catageory;
