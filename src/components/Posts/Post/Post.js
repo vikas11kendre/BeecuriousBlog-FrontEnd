@@ -87,7 +87,7 @@ const Post = ({ post }) => {
       <Box
         component="img"
         onClick={openPost}
-        src={post.selectedFile}
+        src={post?.selectedFile}
         sx={{
           "&:hover": {
             transform: "scale(1.1)",
@@ -129,16 +129,16 @@ const Post = ({ post }) => {
             fontWeight: "600",
           }}
         >
-          {post.title.length > 90
-            ? post.title.substring(0, 120).concat("...")
-            : post.title}
+          {post?.title?.length > 90
+            ? post?.title?.substring(0, 120).concat("...")
+            : post?.title}
         </Typography>
       </Box>
 
       <Box>
         <Typography sx={{ color: "#343a40", mt: "10px", fontSize: "12px" }}>
-          {post.subtitle?.length > 90
-            ? post.subtitle?.substring(0, 120).concat("...")
+          {post?.subtitle?.length > 90
+            ? post?.subtitle?.substring(0, 120).concat("...")
             : post?.subtitle}
         </Typography>
       </Box>
@@ -160,7 +160,7 @@ const Post = ({ post }) => {
             cursor: "pointer",
           }}
         >
-          {post.name.toUpperCase()}
+          {post?.name?.toUpperCase()}
         </Typography>
         <Typography
           onClick={() => navigate(`/catageory/${post?.catageory}`)}
