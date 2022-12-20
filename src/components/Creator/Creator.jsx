@@ -13,7 +13,7 @@ const Creator = () => {
   const { name } = useParams();
 
   const creatorName = name.replace("%20", " ");
-  console.log(creatorName);
+
   const dispatch = useDispatch();
   const { posts, isLoading } = useSelector((state) => state.posts);
 
@@ -42,6 +42,16 @@ const Creator = () => {
             {`Posts Created by ${creatorName}`}
           </Typography>
         </Box>
+        <Box
+          sx={{
+            display: "flex",
+            height: "1px",
+            border: "border: 1px solid #7D8893",
+
+            mb: "12px",
+            backgroundColor: "#CBD4DE",
+          }}
+        />
       </Grid>
       {posts.map((post, i) => (
         <Grid key={i} item xs={12} sm={6} lg={4}>

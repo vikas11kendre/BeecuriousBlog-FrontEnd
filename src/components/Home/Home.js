@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getPostsBySearch, getTrendingPosts } from "../../actions/posts";
+import { getPostsBySearch } from "../../actions/posts";
 import Posts from "../Posts/Posts";
 import Paginate from "../Paginate";
 import {
@@ -61,7 +61,7 @@ const Home = () => {
   };
   const serachPost = () => {
     tags.trim();
-    console.log(tags);
+
     if (search.trim() || tags.trim()) {
       dispatch(getPostsBySearch({ search, tags }));
       navigate(
@@ -74,17 +74,6 @@ const Home = () => {
 
   return (
     <Grid container sx={{ mt: "30px" }}>
-      <Grid item xs={12}>
-        <Box
-          sx={{
-            display: "flex",
-            border: "1px solid #EDF2F8",
-            borderRadius: "10px",
-          }}
-        >
-          <Banner />
-        </Box>
-      </Grid>
       <Grid item xs={12}>
         {<TrendingPost />}
       </Grid>
@@ -102,25 +91,31 @@ const Home = () => {
             sx={{
               display: "flex",
               justifyContent: "center",
-              width: "100px",
-              p: "2px",
-              height: "30px",
-              background: "#697995",
-              borderRadius: "16px",
+
+              // background: "#0A0B0D",
+              // borderRadius: "18px",
             }}
           >
             <Typography
-              sx={{ fontSize: "18px", fontWeight: "600", color: "white" }}
+              sx={{
+                fontSize: { sm: "22px", xs: "14px" },
+                fontWeight: "600",
+                color: "#0A0B0D",
+              }}
             >
               All Posts
             </Typography>
           </Box>
           <Box
-            sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
           >
             <Lottie
               animationData={beefind}
-              style={{ height: "75px" }}
+              style={{ height: "50px" }}
               loop={true}
             />
             <Box
@@ -136,6 +131,7 @@ const Home = () => {
                 ml: { sm: "20px", xs: "8px" },
                 backgroundColor: "#FFE9A2",
                 p: "2px",
+                cursor: "pointer",
               }}
             >
               <SearchIcon
@@ -146,7 +142,7 @@ const Home = () => {
               />
               <Typography
                 align="center"
-                sx={{ fontSize: "14px", fontWeight: "600", color: "#697995" }}
+                sx={{ fontSize: "14px", fontWeight: "600", color: "#0A0B0D" }}
               >
                 Search
               </Typography>
@@ -162,9 +158,10 @@ const Home = () => {
                 flexDirection: "row",
                 borderRadius: "5px",
                 ml: { sm: "20px", xs: "8px" },
-                color: "#697995",
+                color: "#0A0B0D",
                 border: "1px solid #697995",
                 p: "2px",
+                cursor: "pointer",
               }}
             >
               <Typography sx={{ fontSize: "14px", fontWeight: "600" }}>
@@ -185,11 +182,12 @@ const Home = () => {
             height: "1px",
             border: "border: 1px solid #7D8893",
 
-            mb: "20px",
+            mb: "12px",
             backgroundColor: "#CBD4DE",
           }}
         />
       </Grid>
+
       <Dialog open={open} onClose={handleClose}>
         <Grid item xs={12}>
           <Grid container>
@@ -288,6 +286,17 @@ const Home = () => {
       <Grid sx={{ mt: "30px" }} item xs={12}>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           {!searchQuery && !tags.length && <Paginate page={page} />}
+        </Box>
+      </Grid>
+      <Grid item xs={12} sx={{ mt: "40px", mb: "80px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            border: "1px solid #EDF2F8",
+            borderRadius: "10px",
+          }}
+        >
+          <Banner />
         </Box>
       </Grid>
     </Grid>
