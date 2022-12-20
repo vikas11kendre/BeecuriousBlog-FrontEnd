@@ -1,5 +1,5 @@
-import { Box, Grid, Typography } from "@mui/material";
-import React, { useMemo } from "react";
+import { Box, Grid } from "@mui/material";
+import React from "react";
 import Post from "./Post/Post";
 import { useSelector } from "react-redux";
 
@@ -8,7 +8,7 @@ import loading from "../../images/loading.json";
 
 const Posts = () => {
   const style = {
-    height: 600,
+    height: 500,
   };
 
   const { posts, isLoading } = useSelector((state) => state.posts);
@@ -20,21 +20,7 @@ const Posts = () => {
     </Box>
   ) : (
     <Grid container>
-      <Grid item xs={12}>
-        <Box>
-          <Typography
-            variant="h5"
-            sx={{
-              color: "#6b7688",
-              fontSize: "24px",
-              fontWeight: "600",
-              mt: "24px",
-            }}
-          >
-            All Posts
-          </Typography>
-        </Box>
-      </Grid>
+      <Grid item xs={12}></Grid>
       {posts.map((post, i) => (
         <Grid key={i} item xs={12} sm={6} lg={4}>
           <Box

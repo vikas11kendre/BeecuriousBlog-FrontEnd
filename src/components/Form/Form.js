@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,11 +9,10 @@ import {
   Alert,
   Switch,
   Typography,
-  InputLabel,
 } from "@mui/material";
 import Swal from "sweetalert2";
 import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import Dialog from "@mui/material/Dialog";
 import FileBase from "react-file-base64";
 import DialogActions from "@mui/material/DialogActions";
@@ -54,9 +53,7 @@ const Form = () => {
   const handleClickOpen = () => () => {
     dispatch(toggleForm(false));
   };
-  // useEffect(() => {
-  //   if(post) setPostData(post)
-  // }, [post,currentid])
+
   const handleSelect = (e) => {
     setSelectCatageory(e.target.value || "Technology");
     setPostData({
@@ -101,7 +98,7 @@ const Form = () => {
       trending: false,
     });
     dispatch(setId(null));
-    // handleClose()
+    handleClose();
   };
   if (!user?.result?.name) {
     return <Alert severity="error">Please sign in to create post</Alert>;
@@ -115,6 +112,7 @@ const Form = () => {
           fontWeight: "600",
           display: "flex",
           alignItems: "center",
+          mr: "5px",
         }}
       >
         <EditIcon sx={{ ml: "6px", mr: "8px" }} />

@@ -1,31 +1,23 @@
 import { Avatar, Box, Grid, Typography } from "@mui/material";
 import React from "react";
-// import Post from './Post/Post'
+
 import { useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { v4 as uuidv4 } from "uuid";
+
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-// Import Swiper styles
+
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Autoplay, Pagination, Navigation } from "swiper";
 
-// Import Swiper styles
-
-// import Lottie from "lottie-react";
-// import loading from '../../images/loading.json'
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
 const openPost = () => {};
 
 const TrendingPost = () => {
-  const style = {
-    height: 600,
-  };
-
   const { trendingPosts, isLoading } = useSelector((state) => state.posts);
   const navigate = useNavigate();
   if (!trendingPosts?.data?.length && !isLoading) return "No posts found";
@@ -36,7 +28,7 @@ const TrendingPost = () => {
           <Typography
             variant="h5"
             sx={{
-              color: " #636C7C",
+              color: " #030303",
               fontSize: "22px",
               fontWeight: "700",
               mt: "30px",
@@ -94,13 +86,13 @@ const TrendingPost = () => {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                          p: "20px",
+                          p: { sm: "20px", xs: "10px" },
                         }}
                       >
                         <Box
                           component="img"
                           onClick={openPost}
-                          src={post.selectedFile}
+                          src={post?.selectedFile}
                           sx={{
                             "&:hover": {
                               transform: "scale(1.1)",
@@ -122,7 +114,7 @@ const TrendingPost = () => {
                           display: "flex",
                           flexDirection: "column",
                           mb: "40px",
-                          mt: "20px",
+
                           p: "12px",
                         }}
                       >
@@ -139,7 +131,7 @@ const TrendingPost = () => {
                             sx={{
                               fontSize: "14px",
                               fontWeight: "700",
-                              color: "#354156",
+                              color: " #0A0B0D",
                             }}
                           >
                             {post?.catageory.toUpperCase()}
@@ -148,10 +140,10 @@ const TrendingPost = () => {
                         <Box>
                           <Typography
                             sx={{
-                              color: "#343A40",
+                              color: " #0A0B0D",
                               mt: "10px",
                               fontSize: {
-                                lg: "30px",
+                                lg: "28px",
                                 md: "26px",
                                 sm: "20px",
                                 xs: "18px",
@@ -167,7 +159,7 @@ const TrendingPost = () => {
                         <Box>
                           <Typography
                             sx={{
-                              color: "#354156",
+                              color: " #0A0B0D",
                               mt: "10px",
                               fontSize: {
                                 lg: "16px",
@@ -200,7 +192,7 @@ const TrendingPost = () => {
                                   sm: "12px",
                                   xs: "12px",
                                 },
-                                color: "#354156",
+                                color: " #0A0B0D",
                                 mr: "8px",
                                 fontWeight: "400",
                               }}
@@ -232,7 +224,7 @@ const TrendingPost = () => {
                             <Avatar
                               alt={post.name}
                               sx={{
-                                backgroundColor: "#354156",
+                                backgroundColor: "#4168FA",
                                 cursor: "pointer",
                                 width: { xs: "20px" },
                                 height: { xs: "20px" },
@@ -253,8 +245,8 @@ const TrendingPost = () => {
                             <Typography
                               sx={{
                                 fontSize: { xs: "12px" },
-                                fontWeight: "800",
-                                color: "#4E596C",
+                                fontWeight: "600",
+                                color: " #0A0B0D",
                                 pr: "5px",
                               }}
                             >
@@ -278,15 +270,6 @@ const TrendingPost = () => {
                               {post.likes.length}
                             </Typography>
                           </Box>
-                          <Typography
-                            sx={{
-                              color: "#888585",
-                              fontSize: "12px",
-                              fontWeight: "600",
-                            }}
-                          >
-                            - {moment(post.createdAt).fromNow()}
-                          </Typography>
                         </Box>
 
                         <Box
@@ -299,7 +282,7 @@ const TrendingPost = () => {
                         >
                           <Typography
                             sx={{
-                              color: "#4168FA",
+                              color: "#10172B",
                               p: "5px",
                               fontSize: "14px",
                               fontWeight: "600",
@@ -307,18 +290,17 @@ const TrendingPost = () => {
                           >
                             Read More
                           </Typography>
-
-                          <Box
+                          <Typography
                             sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                              color: "#6A6F74",
+                              color: " #0A0B0D",
+                              fontSize: "12px",
+                              fontWeight: "600",
+                              ml: "30px",
                             }}
-                          ></Box>
+                          >
+                            - {moment(post.createdAt).fromNow()}
+                          </Typography>
                         </Box>
-
-                        <Box></Box>
                       </Box>
                     </Grid>
                   </Grid>

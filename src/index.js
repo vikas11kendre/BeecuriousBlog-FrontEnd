@@ -1,29 +1,23 @@
-import React from 'react'
-import * as ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux'
-// import { applyMiddleware, createStore, compose } from 'redux'
-import { composeWithDevTools } from '@redux-devtools/extension';
-import { createStore, applyMiddleware } from 'redux';
-// import thunkMiddleware from 'redux-thunk'
-import rootReducer from './reducers'
-// import loggerMiddleware from './middleware/logger'
-// import monitorReducerEnhancer from './enhancers/monitorReducer'
-import App from './App'
-import thunk from 'redux-thunk'
-// const middlewareEnhancer = applyMiddleware(loggerMiddleware, thunkMiddleware)
-// const composedEnhancers = compose(middlewareEnhancer, monitorReducerEnhancer)
+import React from "react";
+import * as ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 
-// const store = createStore(rootReducer, undefined, composedEnhancers)
+// import { composeWithDevTools } from "@redux-devtools/extension";
+import { createStore, applyMiddleware } from "redux";
+
+import rootReducer from "./reducers";
+
+import App from "./App";
+import thunk from "redux-thunk";
+
 const store = createStore(
   rootReducer,
-  composeWithDevTools(
-    applyMiddleware(thunk)
-    // other store enhancers if any
-  )
+  // composeWithDevTools(applyMiddleware(thunk)),
+  applyMiddleware(thunk)
 );
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <App />
   </Provider>
-)
+);

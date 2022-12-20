@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  Button,
-  Grid,
-  Paper,
-  Stack,
-  TextField,
-  Box,
-  Typography,
-} from "@mui/material";
+import { Grid, Box, Typography } from "@mui/material";
 import homeimg from "../../images/homeimg.png";
+
+import Swal from "sweetalert2";
 const Banner = () => {
   return (
     <Grid container>
@@ -24,30 +18,30 @@ const Banner = () => {
         >
           <Typography
             sx={{
-              fontSize: "40px",
-              fontWeight: "700",
+              fontSize: "30px",
+              fontWeight: "800",
+
               lineHeight: "47px",
-              color: "#4F5760",
+              color: "#354156",
             }}
           >
-            <Box component="span" sx={{ color: "#505BF7" }}>
-              Home <span></span>
-            </Box>
-            For Writers And Reader
+            <span style={{ color: "#505BF7" }}>Home</span> for writers and
+            readers
           </Typography>
           <Typography
             sx={{
-              color: "#69768C",
+              color: "#0A0B0D",
               fontSize: "16px",
               fontWeight: "500",
               mt: "20px",
             }}
           >
-            The hassle free blogging platform for engineers thought-leaders, and
-            for great minds !
+            The hassle-free blogging platform for thought-leaders, and curious
+            peoples!
           </Typography>
 
           <Box
+            onClick={() => Swal.fire("You need to login first")}
             sx={{
               maxWidth: "188px",
               maxHeight: "44px",
@@ -64,7 +58,7 @@ const Banner = () => {
               sx={{
                 fontSize: "16px",
                 fontWeight: "700",
-                color: "#354156",
+                color: "#0A0B0D",
               }}
             >
               Get Started-it's free
@@ -85,7 +79,7 @@ const Banner = () => {
             src={homeimg}
             sx={{
               p: "30px",
-              maxHeight: { md: "400px", xs: "220px", sm: "260px" },
+              maxHeight: { md: "300px", xs: "220px", sm: "260px" },
             }}
           />
         </Box>

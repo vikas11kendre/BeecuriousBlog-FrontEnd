@@ -12,6 +12,7 @@ import Creator from "./components/Creator/Creator";
 import Catageory from "./components/Catageory/Catageory";
 import { useDispatch } from "react-redux";
 import { getTrendingPosts } from "./actions/posts";
+
 const App = () => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -30,16 +31,15 @@ const App = () => {
             <Route path={"/catageory/:name"} element={<Catageory />} />
 
             <Route
-              path="/auth"
+              path={"/auth"}
               action={() =>
                 !user ? <Navigate to="/posts" replace /> : <Auth />
               }
-              element={<Auth />}
+              element={!user ? <Auth /> : <Home />}
             />
           </Routes>
         </Container>
       </GoogleOAuthProvider>
-      ;
     </Router>
   );
 };
