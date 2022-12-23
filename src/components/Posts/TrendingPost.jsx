@@ -15,8 +15,6 @@ import { Autoplay, Pagination, Navigation } from "swiper";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
-const openPost = () => {};
-
 const TrendingPost = () => {
   const { trendingPosts, isLoading } = useSelector((state) => state.posts);
   const navigate = useNavigate();
@@ -48,7 +46,7 @@ const TrendingPost = () => {
           }}
         />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{ mb: "10px" }}>
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -71,12 +69,10 @@ const TrendingPost = () => {
                 sx={{ border: "1px solid #EDF2F8", borderRadius: "10px" }}
               >
                 <Box
-                  onClick={() => navigate(`/posts/${post._id}`)}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    cursor: "pointer",
                   }}
                 >
                   <Grid container>
@@ -91,7 +87,8 @@ const TrendingPost = () => {
                       >
                         <Box
                           component="img"
-                          onClick={openPost}
+                          loading="lazy"
+                          onClick={() => navigate(`/posts/${post._id}`)}
                           src={post?.selectedFile}
                           sx={{
                             "&:hover": {
@@ -119,12 +116,16 @@ const TrendingPost = () => {
                         }}
                       >
                         <Box
+                          onClick={() =>
+                            navigate(`/catageory/${post?.catageory}`)
+                          }
                           sx={{
                             display: "flex",
                             justifyContent: "center",
                             background: "#FFE9A2",
                             maxWidth: "100px",
                             p: "5px",
+                            cursor: "pointer",
                           }}
                         >
                           <Typography
@@ -139,6 +140,7 @@ const TrendingPost = () => {
                         </Box>
                         <Box>
                           <Typography
+                            onClick={() => navigate(`/posts/${post._id}`)}
                             sx={{
                               color: " #0A0B0D",
                               mt: "10px",
@@ -149,6 +151,7 @@ const TrendingPost = () => {
                                 xs: "18px",
                               },
                               fontWeight: "700",
+                              cursor: "pointer",
                             }}
                           >
                             {post.title.length > 120
@@ -243,11 +246,13 @@ const TrendingPost = () => {
                               </Typography>
                             </Avatar>
                             <Typography
+                              onClick={() => navigate(`/creators/${post.name}`)}
                               sx={{
                                 fontSize: { xs: "12px" },
                                 fontWeight: "600",
                                 color: " #0A0B0D",
                                 pr: "5px",
+                                cursor: "pointer",
                               }}
                             >
                               {post.name.toUpperCase()}
@@ -281,11 +286,13 @@ const TrendingPost = () => {
                           }}
                         >
                           <Typography
+                            onClick={() => navigate(`/posts/${post._id}`)}
                             sx={{
                               color: "#10172B",
                               p: "5px",
                               fontSize: "14px",
                               fontWeight: "600",
+                              cursor: "pointer",
                             }}
                           >
                             Read More

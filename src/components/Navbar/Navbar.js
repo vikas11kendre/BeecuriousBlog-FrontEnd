@@ -34,7 +34,7 @@ const Navbar = () => {
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location]);
+  }, [location, user?.token]);
 
   const logout = () => {
     dispatch(logOut());
@@ -62,6 +62,7 @@ const Navbar = () => {
           sx={{ maxWidth: "100px", Height: "60px" }}
           component="img"
           alt="logo"
+          loading="lazy"
           src={logo}
         />
       </Box>
@@ -125,6 +126,11 @@ const Navbar = () => {
             }}
           ></Box>
           <Box
+            onClick={() => {
+              if (!user) {
+                navigate("/auth");
+              }
+            }}
             sx={{
               width: "35px",
               height: "40px",
@@ -133,6 +139,8 @@ const Navbar = () => {
               display: "flex",
               alignItems: "center",
               color: "white",
+              cursor: "pointer",
+              mr: "8px",
             }}
           >
             <EjectIcon sx={{ transform: "rotate(180deg)" }} />
