@@ -16,12 +16,12 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
-import Lottie from "lottie-react";
+
 import TrendingPost from "../Posts/TrendingPost";
-import beefind from "../../images/beefind.json";
-import Banner from "./Banner";
+
 import SearchIcon from "@mui/icons-material/Search";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -91,9 +91,6 @@ const Home = () => {
             sx={{
               display: "flex",
               justifyContent: "center",
-
-              // background: "#0A0B0D",
-              // borderRadius: "18px",
             }}
           >
             <Typography
@@ -113,11 +110,6 @@ const Home = () => {
               alignItems: "center",
             }}
           >
-            <Lottie
-              animationData={beefind}
-              style={{ height: "50px" }}
-              loop={true}
-            />
             <Box
               onClick={handleClickOpen}
               sx={{
@@ -283,20 +275,9 @@ const Home = () => {
       <Grid item xs={12}>
         <Posts />
       </Grid>
-      <Grid sx={{ mt: "30px" }} item xs={12}>
+      <Grid sx={{ mt: "30px", mb: "50px" }} item xs={12}>
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           {!searchQuery && !tags.length && <Paginate page={page} />}
-        </Box>
-      </Grid>
-      <Grid item xs={12} sx={{ mt: "40px", mb: "80px" }}>
-        <Box
-          sx={{
-            display: "flex",
-            border: "1px solid #EDF2F8",
-            borderRadius: "10px",
-          }}
-        >
-          <Banner />
         </Box>
       </Grid>
     </Grid>

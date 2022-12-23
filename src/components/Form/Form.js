@@ -23,7 +23,7 @@ import { createPost } from "../../actions/posts";
 import Text from "./text.js";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
-// import draftToHtml from "draftjs-to-html";
+
 const Form = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();

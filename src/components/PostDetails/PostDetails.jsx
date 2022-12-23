@@ -9,20 +9,16 @@ import CommentSection from "./CommentSection";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import "./styles.css";
-import loading from "../../images/loading.json";
-import Lottie from "lottie-react";
+import loading from "../../images/loading1.gif";
 
 const PostDetails = () => {
-  const style = {
-    height: 600,
-  };
   const { post, posts, isLoading } = useSelector((state) => state.posts);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
     dispatch(getPost(id));
-  }, [id]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (post) {
@@ -30,13 +26,15 @@ const PostDetails = () => {
         getPostsBySearch({ search: "none", tags: post?.tags.join(",") })
       );
     }
-  }, [post]);
+  }, [dispatch, post]);
 
   if (!post) return null;
   if (isLoading) {
     return (
-      <Box>
-        <Lottie animationData={loading} style={style} loop={true} />
+      <Box
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <Box component="img" src={loading} sx={{ width: "90%" }} />
       </Box>
     );
   }
@@ -191,6 +189,7 @@ const PostDetails = () => {
               component="img"
               src={post?.selectedFile}
               sx={{ objectFit: "contain", maxHeight: "400px" }}
+              loading="lazy"
             />
           </Box>
           <Box
@@ -219,7 +218,7 @@ const PostDetails = () => {
             >
               <Typography
                 sx={{
-                  color: "#6b7688",
+                  color: "#0A0B0D",
                   fontSize: "24px",
                   fontWeight: "600",
                   mb: "24px",
@@ -230,30 +229,31 @@ const PostDetails = () => {
             </Box>
           )}
         </Box>
-        <Box sx={{ display: "flex", flexDirection: "column", pl: "20px" }}>
-          {recommendedPosts.map((post, i) => (
+        <Box sx={{ display: "flex", flexDirection: "column", pl: "16px" }}>
+          {recommendedPosts.map((rpost, i) => (
             <Box
               key={i}
-              onClick={() => navigate(`/posts/${post._id}`)}
+              onClick={() => navigate(`/posts/${rpost._id}`)}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                mt: "40px",
+                mt: "20px",
                 cursor: "pointer",
               }}
             >
               <Box sx={{ flexBasis: "70%" }}>
                 <Typography sx={{ fontSize: "14px", fontWeight: "600" }}>
-                  {post.title}
+                  {rpost.title}
                 </Typography>
                 <Typography sx={{ fontSize: "12px" }}>
-                  {post.name} in {post.catageory}
+                  {rpost.name} in {rpost.catageory}
                 </Typography>
               </Box>
               <Box sx={{ flexBasis: "30%" }}>
                 <Box
                   component="img"
-                  src={post.selectedFile}
+                  loading="lazy"
+                  src={rpost.selectedFile}
                   sx={{ width: "100%", maxHeight: "140px", objectFit: "fill" }}
                 />
               </Box>

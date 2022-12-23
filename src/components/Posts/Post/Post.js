@@ -93,12 +93,11 @@ const Post = ({ post }) => {
         maxWidth: "326px",
         mb: "40px",
         mt: "20px",
-        // border: "1px solid #EDF2F8",
-        // borderRadius: "12px",
       }}
     >
       <Box
         component="img"
+        loading="lazy"
         onClick={openPost}
         src={post?.selectedFile}
         sx={{

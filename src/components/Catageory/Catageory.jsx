@@ -3,13 +3,10 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Post from "../Posts/Post/Post";
 import { getPostsByCatageory } from "../../actions/posts";
-import Lottie from "lottie-react";
-import loading from "../../images/loading.json";
+
+import loading from "../../images/loading1.gif";
 import { Box, Grid, Typography } from "@mui/material";
 const Catageory = () => {
-  const style = {
-    height: 600,
-  };
   const { name } = useParams();
 
   const creatorName = name.replace("%20", " ");
@@ -23,8 +20,10 @@ const Catageory = () => {
 
   if (!posts.length && !isLoading) return "No posts found";
   return isLoading ? (
-    <Box>
-      <Lottie animationData={loading} style={style} loop={true} />
+    <Box
+      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+    >
+      <Box component="img" src={loading} loading="lazy" sx={{ width: "90%" }} />
     </Box>
   ) : (
     <Grid container>

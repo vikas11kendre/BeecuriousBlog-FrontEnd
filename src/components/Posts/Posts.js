@@ -3,20 +3,17 @@ import React from "react";
 import Post from "./Post/Post";
 import { useSelector } from "react-redux";
 
-import Lottie from "lottie-react";
-import loading from "../../images/loading.json";
+import loading from "../../images/loading1.gif";
 
 const Posts = () => {
-  const style = {
-    height: 500,
-  };
-
   const { posts, isLoading } = useSelector((state) => state.posts);
 
   if (!posts.length && !isLoading) return "No posts found";
   return isLoading ? (
-    <Box>
-      <Lottie animationData={loading} style={style} loop={true} />
+    <Box
+      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+    >
+      <Box component="img" src={loading} sx={{ width: "90%" }} />
     </Box>
   ) : (
     <Grid container>
