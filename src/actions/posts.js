@@ -74,11 +74,12 @@ export const toggleForm = (state) => async (dispatch) => {
   }
 };
 
-export const updatePost = (id, post) => async (dispatch) => {
+export const updatePost = (id, post, navigate) => async (dispatch) => {
   try {
     const { data } = await api.updatePost(id, post);
 
     dispatch({ type: UPDATE, payload: data });
+    navigate(`/posts/${id}`);
   } catch (error) {
     console.log(`known error ${error.message}`);
   }

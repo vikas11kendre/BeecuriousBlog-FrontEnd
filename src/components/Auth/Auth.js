@@ -7,9 +7,9 @@ import {
   Grid,
   Button,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { lazy, useState } from "react";
 import LockIcon from "@mui/icons-material/Lock";
-import Input from "./Input";
+// import Input from "./Input";
 import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import { useDispatch } from "react-redux";
@@ -17,6 +17,7 @@ import { setAuthData } from "../../actions/posts";
 import { useNavigate } from "react-router-dom";
 import { signup, signin } from "../../actions/auth";
 import Swal from "sweetalert2";
+const Input = lazy(() => import("./Input"));
 const Auth = () => {
   const initialState = {
     firstName: "",
@@ -37,8 +38,10 @@ const Auth = () => {
       } else {
         dispatch(signup(formData, navigate));
       }
+      Swal.fire("Log in Sucessful");
     } else {
       const res = await dispatch(signin(formData, navigate));
+      Swal.fire("Log in Sucessful");
       if (!res) {
         Swal.fire("Wrong Credentials");
       }
@@ -72,6 +75,7 @@ const Auth = () => {
   const googleFailure = () => {
     console.log("try again something is wrong");
   };
+
   return (
     <Container component="main" maxWidth="xs" sx={{ mt: "40px" }}>
       <Paper elevation={3}>
@@ -149,10 +153,10 @@ const Auth = () => {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Button onClick={switchMode}>
+              <Button onClick={switchMode} sx={{ textTransform: "none" }}>
                 {isSignUp
                   ? "Already have account ? Sign In"
-                  : "Dont't have an account "}
+                  : " SignUp ? Don't have an account "}
               </Button>
             </Grid>
           </Grid>

@@ -20,9 +20,9 @@ const TrendingPost = () => {
   const navigate = useNavigate();
   if (!trendingPosts?.data?.length && !isLoading) return "No posts found";
   return (
-    <Grid sx={{ mb: "10px" }} container>
-      <Grid item xs={12}>
-        <Box>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <div>
+        <div>
           <Typography
             variant="h5"
             sx={{
@@ -30,23 +30,24 @@ const TrendingPost = () => {
               fontSize: "22px",
               fontWeight: "700",
               mt: "30px",
+              fontFamily: "Eczar,serif",
             }}
           >
             Trending Posts
           </Typography>
-        </Box>
-        <Box
-          sx={{
+        </div>
+        <div
+          style={{
             display: "flex",
             height: "1px",
             border: "border: 1px solid #7D8893",
-            mt: "8px",
-            mb: "35px",
+            marginTop: "8px",
+            marginBottom: "35px",
             backgroundColor: "#CBD4DE",
           }}
         />
-      </Grid>
-      <Grid item xs={12} sx={{ mb: "10px" }}>
+      </div>
+      <div style={{ marginBottom: "10px" }}>
         <Swiper
           spaceBetween={30}
           centeredSlides={true}
@@ -63,13 +64,15 @@ const TrendingPost = () => {
         >
           {trendingPosts?.data?.map((post) => (
             <SwiperSlide key={post._id}>
-              <Grid
-                item
-                xs={12}
-                sx={{ border: "1px solid #EDF2F8", borderRadius: "10px" }}
+              <div
+                style={{
+                  border: "1px solid #EDF2F8",
+                  borderRadius: "10px",
+                  display: "flex",
+                }}
               >
-                <Box
-                  sx={{
+                <div
+                  style={{
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -88,6 +91,7 @@ const TrendingPost = () => {
                         <Box
                           component="img"
                           loading="lazy"
+                          alt={post?.title}
                           onClick={() => navigate(`/posts/${post._id}`)}
                           src={post?.selectedFile}
                           sx={{
@@ -96,7 +100,7 @@ const TrendingPost = () => {
                             },
                             cursor: "pointer",
                             height: { md: "300px", xs: "230px", sm: "260px" },
-
+                            width: "100%",
                             objectFit: "contain",
 
                             borderRadius: "10px",
@@ -311,13 +315,13 @@ const TrendingPost = () => {
                       </Box>
                     </Grid>
                   </Grid>
-                </Box>
-              </Grid>
+                </div>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 

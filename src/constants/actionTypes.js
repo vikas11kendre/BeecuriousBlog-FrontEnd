@@ -11,7 +11,7 @@ export const AUTH = "AUTH";
 export const LOGOUT = "LOGOUT";
 export const TOGGLE = "TOGGLE";
 export const SETID = "SETID";
-export const REFRESH = "REFRESH";
+
 export const COMMENT = "COMMENT";
 export const TRENDING = "TRENDING";
 export const FETCH_BY_CREATOR = " FETCH_BY_CREATOR";

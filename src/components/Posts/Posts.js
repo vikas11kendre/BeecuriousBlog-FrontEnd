@@ -13,7 +13,7 @@ const Posts = () => {
     <Box
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
-      <Box component="img" src={loading} sx={{ width: "90%" }} />
+      <Box component="img" alt="loader" src={loading} sx={{ width: "90%" }} />
     </Box>
   ) : (
     <Grid container>

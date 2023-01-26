@@ -23,7 +23,13 @@ const Catageory = () => {
     <Box
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
-      <Box component="img" src={loading} loading="lazy" sx={{ width: "90%" }} />
+      <Box
+        component="img"
+        alt="loading"
+        src={loading}
+        loading="lazy"
+        sx={{ width: "90%" }}
+      />
     </Box>
   ) : (
     <Grid container>

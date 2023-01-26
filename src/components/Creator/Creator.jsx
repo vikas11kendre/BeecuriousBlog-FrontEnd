@@ -16,14 +16,14 @@ const Creator = () => {
 
   useEffect(() => {
     dispatch(getPostsByCreator(creatorName));
-  }, []);
+  }, [creatorName, dispatch]);
 
   if (!posts.length && !isLoading) return "No posts found";
   return isLoading ? (
     <Box
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
-      <Box component="img" src={loading} sx={{ width: "90%" }} />
+      <Box component="img" alt="loading" src={loading} sx={{ width: "90%" }} />
     </Box>
   ) : (
     <Grid container>

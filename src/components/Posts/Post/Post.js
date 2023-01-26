@@ -1,22 +1,16 @@
 import React from "react";
 
 import Typography from "@mui/material/Typography";
-// import { v4 as uuidv4 } from "uuid";
+
 import { Avatar, Box } from "@mui/material";
 import Swal from "sweetalert2";
-// import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import moment from "moment";
 import { useDispatch } from "react-redux";
-import {
-  setId,
-  toggleForm,
-  deletePost,
-  likePost,
-} from "../../../actions/posts";
+import { setId, deletePost, likePost } from "../../../actions/posts";
 import { useNavigate } from "react-router-dom";
 
 const Post = ({ post }) => {
@@ -27,10 +21,11 @@ const Post = ({ post }) => {
   const dispatch = useDispatch();
   const handleEdit = () => {
     dispatch(setId(post._id));
-    dispatch(toggleForm(false));
+    navigate("/CreatePost");
   };
   const handleDelete = () => {
     dispatch(deletePost(post._id));
+    Swal.fire(" Post Deleted Sucessfully");
   };
 
   const handleLike = () => {
@@ -48,8 +43,8 @@ const Post = ({ post }) => {
     if (post?.likes?.length > 0) {
       return post?.likes?.find((like) => like === userId) ? (
         <>
-          <Box
-            sx={{
+          <div
+            style={{
               display: "flex",
               alignItems: "center",
               color: "#4168FA",
@@ -58,11 +53,11 @@ const Post = ({ post }) => {
           >
             <FavoriteIcon fontSize="small" />
             &nbsp;{post?.likes?.length}
-          </Box>
+          </div>
         </>
       ) : (
-        <Box
-          sx={{
+        <div
+          style={{
             display: "flex",
             alignItems: "center",
             color: "#4168FA",
@@ -70,15 +65,21 @@ const Post = ({ post }) => {
           }}
         >
           <FavoriteBorderIcon fontSize="small" />
-          {post.likes.length}
-        </Box>
+          &nbsp;{post.likes.length}
+        </div>
       );
     }
 
     return (
       <>
         <FavoriteBorderIcon
-          sx={{ color: "#4168FA", cursor: "pointer" }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#4168FA",
+            cursor: "pointer",
+          }}
           fontSize="small"
         />
       </>
@@ -86,19 +87,20 @@ const Post = ({ post }) => {
   };
 
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         display: "flex",
         flexDirection: "column",
         maxWidth: "326px",
-        mb: "40px",
-        mt: "20px",
+        marginBottom: "40px",
+        marginTop: "20px",
       }}
     >
       <Box
         component="img"
         loading="lazy"
         onClick={openPost}
+        alt={post?.title}
         src={post?.selectedFile}
         sx={{
           "&:hover": {
@@ -121,27 +123,27 @@ const Post = ({ post }) => {
           mt: { sm: "20px", xs: "8px" },
         }}
       >
-        <Box
+        <div
           onClick={() => navigate(`/catageory/${post?.catageory}`)}
-          sx={{
+          style={{
             display: "flex",
             justifyContent: "center",
             background: "#FFE9A2",
             maxWidth: "90px",
-            p: "2px",
+            padding: "4px",
             cursor: "pointer",
           }}
         >
           <Typography
             sx={{
               fontSize: "12px",
-              fontWeight: "700",
+              fontWeight: "600",
               color: " #0A0B0D",
             }}
           >
             {post?.catageory.toUpperCase()}
           </Typography>
-        </Box>
+        </div>
         <Box sx={{ maxHeight: "62px" }}>
           <Typography
             sx={{
@@ -156,7 +158,7 @@ const Post = ({ post }) => {
               : post?.title}
           </Typography>
         </Box>
-        <Box sx={{ mt: "10px" }}>
+        <Box sx={{ mt: "10px", mr: "10px" }}>
           <Typography
             sx={{
               color: " #0A0B0D",
@@ -320,7 +322,7 @@ const Post = ({ post }) => {
           </Typography>
         </Box>
       </Box>
-    </Box>
+    </div>
   );
 };
 

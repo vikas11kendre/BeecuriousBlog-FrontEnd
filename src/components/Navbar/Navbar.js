@@ -1,31 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import logo from "../../images/logo1.png";
-import { Popover, Box, Avatar, Button, Typography } from "@mui/material";
-import EjectIcon from "@mui/icons-material/Eject";
-import Form from "../Form/Form";
+import React, { useState, useEffect, useCallback, lazy } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+
+import logo from "../../images/logo1.png";
+
 import { logOut } from "../../actions/posts";
-import { useLocation } from "react-router-dom";
 
 import decode from "jwt-decode";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+
+const Avatar1 = lazy(() => import("./Avatar1"));
+
+const PersonOutlineIcon = lazy(() =>
+  import("@mui/icons-material/PersonOutline")
+);
+const EjectIcon = lazy(() => import("@mui/icons-material/Eject"));
+const Box = lazy(() => import("@mui/material/Box"));
+const Typography = lazy(() => import("@mui/material/Typography"));
+const EditIcon = lazy(() => import("@mui/icons-material/Edit"));
+
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
   const navigate = useNavigate();
   const location = useLocation();
+
+  const logout = useCallback(() => {
+    dispatch(logOut());
+    navigate("/");
+    setUser(null);
+    setAnchorEl(null);
+  }, [navigate, dispatch]);
   useEffect(() => {
     const token = user?.token;
     if (token) {
@@ -34,34 +39,28 @@ const Navbar = () => {
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
     setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location, user?.token]);
-
-  const logout = () => {
-    dispatch(logOut());
-    navigate("/");
-    setUser(null);
-    setAnchorEl(null);
-  };
+  }, [location, user?.token, logout]);
 
   return (
-    // <AppBar position="static" color="inherit">
     <Box
       sx={{
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        mt: "40px",
+        mt: { lg: "15px", md: "30px", sm: "30px", xs: "30px" },
         mb: "10px",
+        pt: "2px",
+        border: "1px solid #F6F6F6 ",
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
       }}
     >
       {/* logo component */}
       <Box component={Link} to="/">
         <Box
-          sx={{ maxWidth: "100px", Height: "60px" }}
+          sx={{ maxWidth: "100px", maxHeight: "60px", m: "4px" }}
           component="img"
-          alt="logo"
+          alt="blog"
           loading="lazy"
           src={logo}
         />
@@ -95,7 +94,22 @@ const Navbar = () => {
                   cursor: "pointer",
                 }}
               >
-                <Form />
+                <Typography
+                  onClick={() => {
+                    // dispatch(setId(null));
+                    navigate("/CreatePost");
+                  }}
+                  sx={{
+                    fontSize: "16px",
+                    fontWeight: "600",
+                    display: "flex",
+                    alignItems: "center",
+                    mr: "5px",
+                  }}
+                >
+                  <EditIcon sx={{ ml: "6px", mr: "8px" }} />
+                  Write
+                </Typography>
               </Box>
             ) : (
               <Typography
@@ -146,47 +160,12 @@ const Navbar = () => {
             <EjectIcon sx={{ transform: "rotate(180deg)" }} />
           </Box>
           {user && (
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                ml: "10px",
-                mr: "5px",
-              }}
-            >
-              <Avatar
-                onClick={handleClick}
-                alt={user.result.name}
-                src={user?.result?.picture}
-                sx={{ backgroundColor: "#354156", cursor: "pointer" }}
-              >
-                {!user?.result?.picture && (
-                  <Typography
-                    sx={{
-                      color: "white",
-                      fontSize: "16px",
-                      fontWeight: "600",
-                    }}
-                  >
-                    {user.result.name.charAt(0).toUpperCase()}
-                  </Typography>
-                )}
-              </Avatar>
-              <Popover
-                id={id}
-                open={open}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-              >
-                <Button onClick={logout} variant="contained">
-                  LogOut
-                </Button>
-              </Popover>
-            </Box>
+            <Avatar1
+              user={user}
+              logout={logout}
+              anchorEl={anchorEl}
+              setAnchorEl={setAnchorEl}
+            />
           )}
         </Box>
       </Box>

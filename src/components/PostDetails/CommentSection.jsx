@@ -12,7 +12,6 @@ import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { commentPost } from "../../actions/posts";
 import Swal from "sweetalert2";
-import { v4 as uuidv4 } from "uuid";
 const CommentSection = ({ post }) => {
   const c = [...post?.comments].reverse();
   const [comments, setComments] = useState(c);
@@ -42,11 +41,10 @@ const CommentSection = ({ post }) => {
           Comment Section
         </Typography>
         <Box sx={{ mb: "40px" }}>
-          {comments.map((c) => (
-            <Box key={uuidv4()}>
+          {comments.map((c, ii) => (
+            <Box key={ii}>
               <div ref={commentsRef} />
               <Box
-                key={uuidv4()}
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -55,7 +53,6 @@ const CommentSection = ({ post }) => {
                 }}
               >
                 <Box
-                  key={uuidv4()}
                   sx={{
                     display: "flex",
                     alignItems: "center",
