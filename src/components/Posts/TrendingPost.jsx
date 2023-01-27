@@ -29,8 +29,8 @@ const TrendingPost = () => {
               color: " #030303",
               fontSize: "22px",
               fontWeight: "700",
-              mt: "30px",
-              fontFamily: "Eczar,serif",
+              pt: "10px",
+              // fontFamily: "Eczar,serif",
             }}
           >
             Trending Posts

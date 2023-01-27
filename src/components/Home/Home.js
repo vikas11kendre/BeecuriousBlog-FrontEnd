@@ -11,7 +11,6 @@ import Search1 from "../Serach/Search1";
 
 import { useDispatch } from "react-redux";
 import { getTrendingPosts } from "../../actions/posts";
-import Heading from "./heading";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -34,7 +33,6 @@ const Home = () => {
         flexWrap: "warp",
       }}
     >
-      <Heading />
       <TrendingPost />
       <Search1 />
       <Posts />

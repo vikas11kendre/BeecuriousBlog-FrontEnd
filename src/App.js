@@ -36,8 +36,8 @@ const App = () => {
         }
       >
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+          <Navbar />
           <Container>
-            <Navbar />
             <Routes>
               <Route path="/" element={<Navigate to="/posts" replace />} />
 
@@ -49,8 +49,8 @@ const App = () => {
               <Route path={"/catageory/:name"} element={<Catageory />} />
               <Route path="/auth" element={<Auth />}></Route>
             </Routes>
-            <Footer />
           </Container>
+          <Footer />
         </GoogleOAuthProvider>
       </Suspense>
     </Router>
