@@ -48,7 +48,7 @@ const Navbar = () => {
         justifyContent: "center",
         border: "1px solid #F6F6F6 ",
         boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-        paddingTop: "6px",
+        // paddingTop: "6px",
       }}
     >
       <Box
@@ -66,7 +66,7 @@ const Navbar = () => {
         {/* logo component */}
         <Box component={Link} to="/">
           <Box
-            sx={{ maxWidth: "100px", maxHeight: "60px", m: "4px" }}
+            sx={{ width: "100px", height: "60px", m: "4px" }}
             component="img"
             alt="blog"
             loading="lazy"
@@ -187,4 +187,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);

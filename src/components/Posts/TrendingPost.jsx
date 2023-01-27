@@ -29,7 +29,7 @@ const TrendingPost = () => {
               color: " #030303",
               fontSize: "22px",
               fontWeight: "700",
-              pt: "10px",
+
               // fontFamily: "Eczar,serif",
             }}
           >
@@ -325,4 +325,4 @@ const TrendingPost = () => {
   );
 };
 
-export default TrendingPost;
+export default React.memo(TrendingPost);

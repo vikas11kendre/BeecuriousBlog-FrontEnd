@@ -224,4 +224,4 @@ const Search1 = () => {
   );
 };
 
-export default Search1;
+export default React.memo(Search1);
